@@ -1,0 +1,218 @@
+<!--<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="w3/css/w3.css">
+    <link rel="stylesheet" href="w3/js/w3data.js">
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div id="main">
+        <!-- Message Popup-->
+        <div id="messageModal" class="w3-modal">
+            <div class="w3-modal-content">
+                <div class="w3-container" style="border:10px solid rgba(0,0,0,0.7);">
+                    <span onclick="document.getElementById('messageModal').style.display='none'" class="w3-closebtn">&times;</span>
+                    <p>Some text in the Modal..</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- -->
+        <div class="transaction-container" style="margin:0 auto;max-width:1024px">
+            <!-- -->
+            <ul id="progress-nav" style="border-bottom:solid 3px green; margin-bottom:5px" class="transaction-progress w3-navbar">
+                <li id='customer-process'><a class="w3-green progress-enabled" href="#" onclick="progressSelected(this)">1. Customer Info</a></li>
+                <li id="services-progress" ><a href="#" onclick="progressSelected(this)">2. Choose Services</a></li>
+                <li id="confirmation-progress" class="progress-end"><a href="#" onclick="progressSelected(this)">3. Confirmation</a></li>
+            </ul>
+            <div class="progress-container w3-container" style="padding:0px 0px">
+                <div id="customer-process-container">
+                    <header class="w3-container w3-teal">Customer Information:</header>
+                    <div class="w3-container w3-half">
+                        <label class="w3-label">First Name:</label>
+                        <input class="w3-input" type="text">
+                    </div>
+                    <div class="w3-container w3-half">
+                        <label class="w3-label">Last Name:</label>
+                        <input class="w3-input" type="text">
+                    </div>
+                </div>
+                <div id="services-progress-container" hidden>
+                    <div class="w3-half w3-container">
+                        <div class="w3-container">
+                            <label class="w3-label w3-half">Select Your Employee:</label>
+                            <input class="w3-input w3-half search-input" name="search" placeholder="Search.." type="text">
+                        </div>
+                        <ul class="w3-ul w3-hoverable">
+                            <li>
+                                <img src="images/img_avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                <span class="w3-xlarge">Employee Name</span>
+                                <br>
+                                <span>Employee Title</span>
+                            </li>
+                            <li><img src="images/img_avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                <span class="w3-xlarge">Employee Name</span>
+                                <br>
+                                <span>Employee Title</span></li>
+                        </ul>
+                    </div>
+                    <div class="w3-half w3-container">
+                        <div class="w3-container">
+                            <label class="w3-label w3-half">Select Your Services:</label>
+                            <input class="w3-input w3-half search-input" name="search" placeholder="Search.." type="text">
+                        </div>
+                        <div class="w3-accordion w3-light-grey">
+                            <button onclick="showAccordions('ServiceCategory1')" class="w3-btn-block w3-left-align">
+                                Manicures
+                            </button>
+                            <div id="ServiceCategory1" class="w3-accordion-content w3-container">
+                                <ul class="w3-ul">
+                                    <li>
+                                        <img src="images/img_avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                        <span class="w3-xlarge">Classic (M)</span>
+                                        <br>
+                                        <span>Classic Desc</span>
+                                    </li>
+                                    <li><img src="images/4.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                        <span class="w3-xlarge">Gel Meni</span>
+                                        <br>
+                                        <span>Gel Meni Desc</span></li>
+                                </ul>
+                            </div>
+                            <button onclick="showAccordions('ServiceCategory2')" class="w3-btn-block w3-left-align">
+                                Pedicures
+                            </button>
+                            <div id="ServiceCategory2" class="w3-accordion-content w3-container">
+                                <ul class="w3-ul">
+                                    <li><img src="images/4.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                        <span class="w3-xlarge">Classic Pedicure</span>
+                                        <br>
+                                        <span>Classic Pedicure Desc</span>
+                                    </li>
+                                    <li><img src="images/4.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                        <span class="w3-xlarge">Gel Pedi</span>
+                                        <br>
+                                        <span>Gel Pedi Desc</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="confirmation-progress-container" hidden>
+                    <header class="w3-header w3-container w3-blue">Summary</header>
+                    <header class="w3-header w3-container">
+                        <Span>Customer: Customer Name</Span>
+                        <br><span>Total: </span>
+                            <br>
+                        <Span>Start Time: </Span>
+                        <br>
+                        <Span>Duration: </Span>
+                    </header>
+                    <div class="summary-row w3-container w3-border" style="padding-top:5px">
+                        <div class="w3-third">
+                            <img src="images/img_avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                <span class="w3-xlarge">Employee Name</span>
+                                <br>
+                                <span>Employee Title</span>
+                        </div>
+                        <div class="w3-third">
+                            <img src="images/4.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                        <span class="w3-xlarge">Classic Pedicure</span>
+                                        <br>
+                                        <span>Classic Pedicure Desc</span>
+                        </div>
+                        <div class="w3-third">
+                            <span>Start Time: </span>
+                            <br>
+                            <span>Padding Time: </span>
+                            <br>
+                            <span>Duration: </span>
+                        </div>
+                    </div>
+                    <div class="summary-row w3-container w3-border" style="padding-top:5px">
+                        <div class="w3-third">
+                            <img src="images/img_avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                <span class="w3-xlarge">Employee Name</span>
+                                <br>
+                                <span>Employee Title</span>
+                        </div>
+                        <div class="w3-third">
+                            <img src="images/4.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                        <span class="w3-xlarge">Classic Pedicure</span>
+                                        <br>
+                                        <span>Classic Pedicure Desc</span>
+                        </div>
+                        <div class="w3-third">
+                            <span>Start Time: </span>
+                            <br>
+                            <span>Padding Time: </span>
+                            <br>
+                            <span>Duration: </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="" style="margin-top:10px">
+                <a id="progress-btn" class="w3-btn" onclick="progressNextStep();">Next Step</a>
+            </footer>
+        </div>
+        <script src="js/common.js"></script>
+        <script>
+            document.title = "Title";
+
+            // handle duplicate only in nav, container must be followed by
+            function progressNextStep() {
+                if( $('#progress-nav .w3-green').parent().hasClass('progress-end')) {
+                    // Submit form
+                    alert("Submit Transaction");
+                    return;
+                }
+                
+                var currentNav = $('#progress-nav .w3-green');
+                currentNav.removeClass('w3-green');
+                var currentNavParentID = '#' + currentNav.parent().attr('id');
+                $(currentNavParentID + '-container').hide();
+
+                var currentNavParentNextID = '#' + $(currentNavParentID).next().attr('id');
+                $(currentNavParentNextID).find('a').addClass('w3-green progress-enabled');
+                $(currentNavParentNextID + '-container').show();
+                
+                if( $(currentNavParentNextID).hasClass('progress-end')) {
+                    $('#progress-btn').text('submit');
+                }
+                    
+            }
+
+            function progressSelected(selectedObj) {
+                if ($(selectedObj).hasClass('progress-enabled')) {
+                    $('#progress-btn').text('Next');
+                    
+                    var currentNav = $('#progress-nav .w3-green');
+                    currentNav.removeClass('w3-green');
+                    var currentNavParentID = '#' + currentNav.parent().attr('id');
+                    $(currentNavParentID + '-container').hide();
+
+                    var currentNavParentSelectedID = '#' + $(selectedObj).parent().attr('id');
+                    $(currentNavParentSelectedID).find('a').addClass('w3-green progress-enabled');
+                    $(currentNavParentSelectedID + '-container').show();
+                    
+                    if( $(currentNavParentSelectedID).hasClass('progress-end')) {
+                        $('#progress-btn').text('submit');
+                    }
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

@@ -26,28 +26,6 @@ function showAccordions(id) {
     }
 }
 
-// Change Goldweight to text (input : phan)
-function readGoldWeight( weightPhan) {
-    var text = "";
-    var currWeight = weightPhan * 10;
-    var unit = currWeight % 10; // ly
-    if( unit > 0)
-        text = unit + " ly" + text;
-    currWeight = Math.floor(currWeight / 10);
-    unit = currWeight % 10; // phan
-    if( unit > 0)
-        text = unit + " phân " + text;
-    currWeight = Math.floor(currWeight / 10);
-    unit = currWeight % 10; // chi
-    if( unit > 0)
-        text = unit + " chỉ " + text;
-    currWeight = Math.floor(currWeight / 10);
-    unit = currWeight % 10; // luong
-    if( unit > 0)
-        text = unit + " lượng " + text;
-    return text;
-}
-
 // Check selectors exist
 $.fn.exists = function () {
     return this.length !== 0;
