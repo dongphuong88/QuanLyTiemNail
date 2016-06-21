@@ -1,5 +1,3 @@
-<!--<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -7,61 +5,161 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="w3/css/w3.css">
+    <link rel="stylesheet" href="w3/js/w3data.js">
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/calendar.css">
     <script src="js/jquery-2.2.4.min.js"></script>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.min.css">
     <style>
-        .scheduler-calendar {
-            display: table;
-            border:solid;
-            max-width:700px;
-            ...
+        ul {
+            list-style-type: none;
         }
         
-        .scheduler-calendar-row {
-            display: table-row;
-            ...
+        body {
+            font-family: Verdana, sans-serif;
+        }
+        /* Month header */
+        .calendar {
+            width:251px;
+            height:218px;
+            box-sizing: border-box;
+        }
+        .calendarMonth {
+            width: 100%;
+            background: #1abc9c;
+        }
+        /* Month list */
+        
+        .calendarMonth ul {
+            margin: 0;
+            padding: 0;
         }
         
-        .mycell {
-            display: table-cell;
-            ...
+        .calendarMonth ul li {
+            color: white;
+            font-size: 20px;
+            text-align: center;
+        }
+        /* Previous button inside month header */
+        
+        .calendarMonth .calendarPrev {
+            float: left;
+            padding-left:10px;
+        }
+        /* Next button */
+        
+        .calendarMonth .calendarNext {
+            float: right;
+            padding-right:10px;
+        }
+        /* Weekdays (Mon-Sun) */
+        
+        .calendarWeekdays {
+            margin: 0;
+            padding: 5px 0;
+            background-color: #ddd;
         }
         
-        .column1 {
-            display: table-column;
-            background-color: green;
-            max-width:250px;
+        .calendarWeekdays li {
+            display: inline-block;
+            width: 11.6%;
+            color: #666;
+            text-align: center;
+        }
+        /* Days (1-31) */
+        
+        .calendarDays {
+            padding: 10px 0;
+            background: #eee;
+            margin: 0;
         }
         
-        .column2 {
-            display: table-column;
-            max-width:250px;
-            ...
+        .calendarDays li {
+            list-style-type: none;
+            display: inline-block;
+            width: 13.6%;
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+        /* Highlight the "current" day */
+        
+        .calendarDays li .calendarActive {
+            padding: 5px;
+            background: #1abc9c;
+            color: white !important
         }
     </style>
 </head>
 
 <body>
-    <div id="scheduler-container">
-        <div class="scheduler-calendar ">
-            <div class="column1"></div>
-            <div class="column2"></div>
-            <div class="column1"></div>
-            <div class="scheduler-calendar-row">
-                <div class="mycell">contents of first cell</div>
-                <div class="mycell">contents of second cell in row 1</div>
-                <div class="mycell">contents of second cell in row 1</div>
-            </div>
-            <div class="scheduler-calendar-row">
-                <div class="mycell">contents of first cell in row 2</div>
-                <div class="mycell">contents of second cell in row 2</div>
-                <div class="mycell">contents of first cell in row 2</div>
-            </div>
+    <div id="calendar" class="calendar">
+        <div class="calendarMonth">
+            <ul>
+                <li class="calendarPrev">&#10094;</li>
+                <li class="calendarNext">&#10095;</li>
+                <li class="calendarTitle">
+                    <span style="font-size:18px">August</span> <span style="font-size:18px">2016</span>
+                </li>
+            </ul>
         </div>
-    </div>
 
+        <ul class="calendarWeekdays">
+            <li>Su</li>
+            <li>Mo</li>
+            <li>Tu</li>
+            <li>We</li>
+            <li>Th</li>
+            <li>Fr</li>
+            <li>Sa</li>
+            
+        </ul>
+
+        <ul class="calendarDays">
+            
+        </ul>
+    </div>
+    <script src="js/common.js"></script>
+    <script>
+        $(function calendarFillDays( calendarId ) {
+            
+            var month = getMonthFromName( $('#calendar .calendarTitle span:first').text());
+            var year = +$('#calendar .calendarTitle span:nth-child(2)').text();
+            
+            var firstDayOfMonth = (new Date(year,month,1)).getDay();
+            var htmlDayFill = "";
+            
+            // fill old
+            var maxDayPrevMonth = getPrevMonthDays( month, year);
+            for( var i = firstDayOfMonth-1; i >= 0; i--)
+                htmlDayFill += '<li></li>'//'<li>' + (maxDayPrevMonth - i) + '</li>';
+            
+            // Fild current
+            var maxDaysMonth;
+            if( month == 11)
+                maxDaysMonth = getPrevMonthDays(0, year + 1);
+            else
+                maxDaysMonth = getPrevMonthDays(month + 1, year);
+            t(maxDaysMonth);
+            for( var i = 1; i <= maxDaysMonth; ++i)
+                htmlDayFill += '<li>' + (i < 10 ? '0'+i : i ) + '</li>';
+            $('#calendar .calendarDays').html(htmlDayFill);
+            
+            // Fill next
+            
+        });
+        function getMonthFromName( monthName) {
+            var months = [ "January", "February", "March", "April", "May", "June", 
+               "July", "August", "September", "October", "November", "December" ];
+            for( var i = 0; i < months.length; i++)
+                if( months[i] == monthName)
+                    return i;
+        }
+        function getPrevMonthDays( month, year) {
+            return new Date( year, month, 0).getDate();
+        }
+    </script>
 </body>
 
 </html>

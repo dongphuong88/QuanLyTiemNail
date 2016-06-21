@@ -1,0 +1,134 @@
+<!--<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="w3/css/w3.css">
+    <link rel="stylesheet" href="w3/js/w3data.js">
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.min.css">
+<style>
+    .progressTitle {
+        padding: 10px 0px 10px 0px;
+    }
+    .processTitleSpan {
+        padding-right: 10px;
+    }
+    .progressNav {
+        margin-top: 10px;
+    }
+    </style>
+    <body>
+        <div class="ipadMiniScreenLandscape"></div>
+        <div class="iphoneScreenLandscape"></div>
+
+        <!-- Message Popup-->
+        <div id="messageModal" class="w3-modal">
+          <div class="w3-modal-content">
+            <div class="w3-container" style="border:10px solid rgba(0,0,0,0.7);">
+              <span onclick="document.getElementById('messageModal').style.display='none'" 
+              class="w3-closebtn">&times;</span>
+              <p>Some text in the Modal..</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="main" style="margin:0 auto;max-width:1024px">
+            <div class="appointmentContainer">
+                <div class="progressTitle w3-container">
+                    <span class="processTitleSpan">1. Contact details</span>
+                    <span class="processTitleSpan">2. Date/Time</span>
+                    <span class="processTitleSpan">3. Sevices</span>
+                    <span class="processTitleSpan">4. Employees</span>
+                    <span class="processTitleSpan">5. Confirm</span>
+                </div>
+                <div id="progressCustomerID" hidden>
+                    <div class="progressContainer w3-container">
+                        <div class="w3-half w3-container">
+                            <label class="w3-label w3-validate">Phone</label>
+                            <input class="w3-input" type="number">
+                        </div>
+                        <div class="w3-half w3-container">
+                            <label class="w3-label w3-validate">Email</label>
+                            <input class="w3-input" type="text">
+                        </div>
+                        <div class="w3-half w3-container">
+                            <label class="w3-label w3-validate">First Name</label>
+                            <input class="w3-input" type="text">
+                        </div>
+                        <div class="w3-half w3-container">
+                            <label class="w3-label w3-validate">Last Name</label>
+                            <input class="w3-input" type="text">
+                        </div>
+                    </div>
+                    <div class="progressNav w3-container">
+                        <button class="w3-btn w3-green" onclick="progressNextStep($(this).parent().parent());">Next Step</button>
+                    </div>
+                </div>
+                <div id="progressDateTimeID">
+                    <div class="month"> 
+                      <ul>
+                        <li class="prev">&#10094;</li>
+                        <li class="next">&#10095;</li>
+                        <li>
+                          August<br>
+                          <span style="font-size:18px">2016</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <ul class="weekdays">
+                      <li>Mo</li>
+                      <li>Tu</li>
+                      <li>We</li>
+                      <li>Th</li>
+                      <li>Fr</li>
+                      <li>Sa</li>
+                      <li>Su</li>
+                    </ul>
+
+                    <ul class="days"> 
+                      <li>1</li>
+                      <li>2</li>
+                      <li>3</li>
+                      <li>4</li>
+                      <li>5</li>
+                      <li>6</li>
+                      <li>7</li>
+                      <li>8</li>
+                      <li>9</li>
+                      <li><span class="active">10</span></li>
+                      <li>11</li>
+                      ...etc
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        
+        <script src="js/common.js"></script>
+        <script>
+            document.title = "Title";
+            
+            // handle duplicate only in nav, container must be followed by
+            function progressNextStep( progressContainer ) {
+                
+                
+                var currentNavID = '#' + $('#progress-nav w3-green').attr('id');
+                $(currentNavID).removeClass('w3-green');
+                $(currentNavID).next().addClass('w3-green');
+                $(current + '-container').hide();
+                $(current + '-container').next().show();
+                
+                return false;
+            }
+        </script>
+
+    </body>
+
+</html>
