@@ -3,11 +3,18 @@ function t(text){
     alert(text);
 }
 
-// auto select has to be done when page ready
+
+// Default setup
 $(function () {
-$('input').on("focus", function() {
-    $(this).select();
-});
+    // auto select has to be done when page ready
+    $('input').on("focus", function() {
+        $(this).select();
+    });
+    
+    // Set current Time
+    var today = new Date();
+    $('.currentDate').html((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear());
+    $('.currentTime').html((today.getHours() < 10 ? '0' + today.getHours() : today.getHours()) + ':' + (today.getMinutes()<10? '0' + today.getMinutes() : today.getMinutes()));
 })
 
 // Retrieve GET parameter
