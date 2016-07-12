@@ -11,79 +11,126 @@
     <script src="js/jquery-2.2.4.min.js"></script>
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <style>
-        .schedularStaff {
+        label {
+            font-size:x-large;
         }
-        
-        .schedularStaff div {
-            display:inline-block; 
-            background:green;
-            margin:0px;
+        input {
+            font-size:x-large;
         }
-        .schedularStaff .schedularStaffPrev{
-            width: 20px;
+        .selectedServicesRow .updateTotal {
+            width:80%;
             float:left;
         }
-        .schedularStaff .schedularStaffNext{
-            float: right;
+        .removeButton {
+            margin-left:10px;
+            float:clear;
+        }
+        .confirmButton {
+            width:200px;
+            margin-left:10px;
+            font-size:xx-large;
         }
     </style>
 </head>
 
 <body>
-<div class="ipadMiniScreenLandscape"></div>
     <div class="pageHeader"></div>
     
     <div class="w3-container pageMain">
-        <div class="w3-container dateTime w3-border w3-round-xlarge">
+        <div class="w3-container dateTime">
             <p>
                 <label class="w3-label">Date/Time: </label>
-                <label class="w3-label currentDate"></label>
-                <label class="w3-label currentTime"></label>
+                <label class="currentDate"></label>
+                <label> - </label>
+                <label class="currentTime"></label>
             </p>
         </div>
         
         <div class="selectedServices w3-container">
             <div class="selectedServicesHeader w3-container">
-                <div class="w3-third"><label class="w3-label">Service:</label></div>
-                <div class="w3-third"><label class="w3-label">Employee:</label></div>
-                <div class="w3-third"><label class="w3-label">Amount:</label></div>
+                <div class="w3-third"><label class="w3-label w3-xxlarge">Service:</label></div>
+                <div class="w3-third"><label class="w3-label w3-xxlarge">Employee:</label></div>
+                <div class="w3-third"><label class="w3-label w3-xxlarge">Amount:</label></div>
             </div>
-            <div class="selectedServicesRow w3-container w3-border-bottom w3-border-red">
-                <div class="w3-third"><label class="w3-label">Gel</label></div>
-                <div class="w3-third"><label class="w3-label">Kelly</label></div>
-                <div class="w3-third"><label class="w3-label">$100</label></div>
+            <div class="selectedServicesRow w3-container firstRow dataRow">
+                <div class="w3-third"><input class="w3-input" placeholder="Enter service" value="Gel" type="text"/></div>
+                <div class="w3-third"><input class="w3-input" placeholder="Enter staff" value="Kelly" type="text"/></div>
+                <div class="w3-third"><input class="w3-input updateTotal" placeholder="Enter amount" value="111" type="number"/></div>
             </div>
             <div class="selectedServicesTotal w3-container">
-                <div class="w3-third">&nbsp;</div>
-                <div class="w3-third w3-container"><label class="w3-label w3-right w3-xlarge">Total: </label></div>
-                <div class="w3-third"><label class="w3-label w3-xlarge">$100</label></div>
+                <div class="w3-twothird"><a class="w3-btn" style="margin-top:5px;" onclick="addRemovableLine(this)">Add Service</a></div>
+                <div class="w3-third"><label class="w3-label w3-xxlarge">Total: $<span id="servicesTotal">100</span></label></div>
             </div>
         </div>
         
         <div class="w3-container paymentMethod w3-padding">
             <div class="w3-container w3-half">
-                <label class="w3-label w3-right">Pay by:</label>
+                <label class="w3-label w3-right w3-xxlarge">Pay by:</label>
             </div>
-            <div class="w3-container w3-half w3-border w3-round-xlarge w3-padding">
-                <label class="w3-label">Credit:</label><input class="w3-input" type="number">
-                <label class="w3-label">Cash:</label><input class="w3-input" type="number">
+            <div class="w3-container w3-half">
+                <label class="w3-label">Credit:<input id="credit" class="w3-input updateTotal" type="number"></label>
+                <label class="w3-label">Cash:<input id="cash" class="w3-input updateTotal" type="number"></label>
                 <label class="w3-label">Tip: 
-                    <input type="radio" name="tip" value="15"><label>15%</label>
-                    <input type="radio" name="tip" value="18"><label>18%</label>
-                    <input type="radio" name="tip" value="20"><label>20%</label>
-                </label><input class="w3-input" type="number">
+                <input class="w3-input updateTotal" id="tip" type="number"></label>
+                <label>
+                    <label style="font-size:large"><input type="radio" name="tip" value="15" onchange="$('#tip').val(+$('#tip15').text());updateAmountAndTip();">15% - $<span id="tip15">100</span></label>
+                    <label style="font-size:large"><input type="radio" name="tip" value="18" onchange="$('#tip').val(+$('#tip18').text());updateAmountAndTip();">18% - $<span id="tip18">120</span></label>
+                    <label style="font-size:large"><input type="radio" name="tip" value="20" onchange="$('#tip').val(+$('#tip20').text());updateAmountAndTip();">20% - $<span id="tip20">200</span></label>
+                </label>
+                <div><label class="w3-label w3-xxlarge">Total: $<span id="checkoutTotal">100</span></label></div>
             </div>
         </div>
         
         <div class="w3-container w3-center w3-padding-large">
-            <button class="w3-btn">Email</button>
-            <button class="w3-btn">Print</button>
+            <button class="w3-btn confirmButton">Email</button>
+            <button class="w3-btn confirmButton">Print</button>
         </div>
     </div>
     
     <div class="pageFooter"></div>
     <script src="js/common.js"></script>
-</body>
+    <script>
+        function addRemovableLine(buttonObject) {
+            var removableGridRoot = $(buttonObject).parent().parent().parent();
+            var cloneRow = removableGridRoot.children('div').eq(1).clone(true);
+            cloneRow.children().last().append('<a class="removeButton" onclick="$(this).parent().parent().remove()"><i class="fa fa-minus-circle fa-3x" aria-hidden="true"></i></a>');
+            cloneRow.find('input').val('');
+            removableGridRoot.children('div').eq(-1).before(cloneRow);
+        }
+        
+        function updateAmountAndTip() {
+            var servicesTotal = 0;
+            $('.dataRow').find('.updateTotal').each(function(){
+                servicesTotal += +$(this).val();
+            });
+            $('#servicesTotal').text(servicesTotal);
+            
+            $('#cash').val(+$('#servicesTotal').text() - $('#credit').val());
+            $('#tip15').text((servicesTotal*15/100).toFixed(2));
+            $('#tip18').text((servicesTotal*18/100).toFixed(2));
+            $('#tip20').text((servicesTotal*20/100).toFixed(2));
+            $('#checkoutTotal').text(+$('#servicesTotal').text() + +$('#tip').val());
+        }
+        
+        $(function () {
+            // Load page calculation
+            var servicesTotal = 0;
+            $('.dataRow').find('.updateTotal').each(function(){
+                servicesTotal += +$(this).val();
+            });
+            $('#servicesTotal').text(servicesTotal);
+            $('#tip15').text((servicesTotal*15/100).toFixed(2));
+            $('#tip18').text((servicesTotal*18/100).toFixed(2));
+            $('#tip20').text((servicesTotal*20/100).toFixed(2));
+            $('#checkoutTotal').text(+$('#servicesTotal').text() + +$('#tip').val());
+            
+            // Trigger tip
+            $('.updateTotal').on('change'/*keyup*/,function(){
+                updateAmountAndTip();
+            });
+        });
+    </script>
+</body>;
     
 
 </html>

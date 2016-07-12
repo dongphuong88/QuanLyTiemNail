@@ -17,6 +17,9 @@ $(function () {
     $('.currentTime').html((today.getHours() < 10 ? '0' + today.getHours() : today.getHours()) + ':' + (today.getMinutes()<10? '0' + today.getMinutes() : today.getMinutes()));
 })
 
+// Format 2 decimal place
+
+
 // Retrieve GET parameter
 function getParam(name){
    if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
